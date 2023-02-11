@@ -1,0 +1,82 @@
+%% !TEX program = pdflatex
+%% !BIB program = bibtex
+\documentclass[12pt]{article}
+
+\usepackage{amsfonts,amsmath,amssymb,mathtools,marvosym}
+\usepackage[left=2.5cm,right=2cm,top=2cm,bottom=2.5cm]{geometry}
+\usepackage{indentfirst,setspace,multirow}
+\usepackage{graphicx,xcolor,float,epstopdf}
+\usepackage{enumerate}
+\usepackage[bookmarks=true,colorlinks,linkcolor=blue,citecolor=blue,urlcolor={black},breaklinks=true]{hyperref}
+
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{N}[1]{>{\arraybackslash}m{#1}}
+
+\onehalfspacing
+%\doublespacing
+
+\setlength{\parindent}{0.5cm}
+\setlength{\parskip}{0cm}
+%\renewcommand{\baselinestretch}{1.15} % 1.6 for double
+
+% =================================================================
+
+\title{\textbf{Homework 2}}
+\author{ECON312 Time Series Analysis \\ Instructor: Narek Ohanyan}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+% -----------------------------------------------------------------
+
+\section*{Instructions}
+
+\begin{itemize}
+    \item The homework is due at due-time on \textbf{due-date}. No late submissions will be accepted.
+    \item Students are encouraged to submit answers typed in TeX format. Such submissions will be rewarded with a bonus of 2\% of the final grade.
+    \item Homeworks must be submitted (uploaded to the course page) in pdf format named \textit{Name\_Surname.pdf}.
+\end{itemize}
+
+% -----------------------------------------------------------------
+
+\section*{Assignment 1}
+
+Consider the following AR(1) model
+\begin{align*}
+    y_{t} & = c + \phi y_{t-1} + e_{t}
+\end{align*}
+where the error terms are themselves AR(1) processes
+\begin{align*}
+    e_{t} & = \rho e_{t-1} + u_{t} \qquad\qquad\qquad u_{t} \sim IID(0,\sigma^2).
+\end{align*}
+with $ | \phi | < 1 $ and $ | \rho | < 1 $.
+
+\begin{enumerate}
+    \item Show that the process may be written as
+          \begin{align*}
+              y_{t} - c - \phi y_{t-1} = \rho \left( y_{t-1} - c - \phi y_{t-2} \right) + u_{t}
+          \end{align*}
+          \begin{align*}
+              y_{t} = c \left( 1 - \rho \right) + \left( \phi + \rho \right) y_{t-1} - \rho \phi y_{t-2} + u_{t}
+          \end{align*}
+          \begin{align*}
+              y_{t} - y_{t-1} = c \left( 1 - \rho \right) + \left( \phi + \rho - 1 \right) y_{t-1} - \rho \phi y_{t-2} + u_{t}
+          \end{align*}
+          \begin{align*}
+              y_{t} - y_{t-1} = c \left( 1 - \rho \right) + \left( \phi + \rho - \rho \phi - 1 \right) y_{t-1} + \rho \phi \left( y_{t-1} - y_{t-2} \right) + u_{t}
+          \end{align*}
+          \begin{align*}
+              \Delta y_{t} = c \left( 1 - \rho \right) + \left( \phi + \rho - \rho \phi - 1 \right) y_{t-1} + \rho \phi \Delta y_{t-1} + u_{t}
+          \end{align*}
+          \begin{align*}
+              \Delta y_{t} = \alpha_0 + \gamma y_{t-1} + \alpha_1 \Delta y_{t-1} + u_{t}
+          \end{align*}
+\end{enumerate}
+
+% =================================================================
+
+\end{document}
