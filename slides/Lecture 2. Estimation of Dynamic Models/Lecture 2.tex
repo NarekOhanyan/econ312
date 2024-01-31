@@ -1,0 +1,389 @@
+%% !TEX program = xelatex
+%% !BIB program = bibtex
+\documentclass[10pt,aspectratio=169]{beamer}  % present
+
+\mode<presentation>
+{
+    \usetheme{default}   % or try Boadilla, boxes, Singapore, Darmstadt, Madrid, Warsaw, ...
+    \usecolortheme{default} % or try albatross, beaver, crane, ...
+
+    \usefonttheme{structurebold}  % or try serif, , ...
+    \setbeamertemplate{navigation symbols}{}
+    \setbeamertemplate{caption}[numbered]
+    \definecolor{MyColor}{rgb}{0,0.3,0.65}
+    \definecolor{MyColorLight}{rgb}{0,0.7,0.95}
+    \definecolor{MyGreenColor}{rgb}{0,0.6,0}
+    \definecolor{MyRedColor}{rgb}{0.8,0,0}
+    \setbeamercolor{structure}{fg=MyColor}
+}
+
+%% Packages
+\usepackage[round]{natbib}
+%\usepackage{authblk}
+\usepackage{amsfonts,amsmath,amssymb,mathtools,marvosym,amsthm,ulem,cancel}
+%\usepackage{enumerate}
+\usepackage{graphicx,float,tcolorbox}
+\hypersetup{colorlinks,linkcolor=MyColor,citecolor=MyColor,urlcolor=black,breaklinks=true}
+% \usepackage{fontspec}
+% \usepackage{tikz}
+
+%% Print author name, short title, date and slide number at the bottom of the page
+% \setbeamercolor{author in head/foot}{fg=MyColor, bg=MyColorLight}
+\makeatletter
+\setbeamertemplate{footline}
+{
+    \leavevmode%
+    \hbox{%
+        \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+            \usebeamerfont{author in head/foot}\insertshortauthor
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+            \usebeamerfont{title in head/foot}\insertshorttitle
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+            \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+            \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+        \end{beamercolorbox}%
+    }%
+    \vskip0pt%
+}
+\makeatother
+
+% \setmainfont{Ubuntu}
+% \setmainfont{DejaVu Serif}
+% \setsansfont{Segoe UI}
+% \setsansfont{EB Garamond}
+% \setsansfont{Tahoma}
+% \setsansfont{Roboto}
+% \setsansfont{Open Sans}
+% \setsansfont{Georgia}
+% \setsansfont{SF Pro Display}
+% \setsansfont{Lato}
+% \setmonofont{Monospaced}
+
+
+%\setlength{\parindent}{0.5cm}
+\setlength{\parskip}{0.3cm}
+
+\renewcommand{\baselinestretch}{1.0}
+\renewcommand{\arraystretch}{1.2}
+
+\newtheorem{proposition}{Proposition}
+
+% ------------------------------------------------------------------------------
+
+%% Description
+\author[Narek Ohanyan]{Narek Ohanyan}
+\title[Estimation of Dynamic Models]{Lecture 2. Estimation of Dynamic Models}
+\institute[AUA]{American University of Armenia}
+\date{\today}
+
+% ------------------------------------------------------------------------------
+
+%% Add table of contents before every subsection
+\AtBeginSection[]
+{
+    \begin{frame}{Outline}
+        \tableofcontents[currentsection]
+    \end{frame}
+}
+
+% ==============================================================================
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% ==============================================================================
+
+\section{Estimation of Distributed Lag models}
+
+% ------------------------------------------------------------------------------
+
+\begin{frame}{Assumptions of the Distributed Lag Model}
+
+    \bigskip
+    Suppose that we have a distributed lag model
+    \begin{align*}
+        y_{t} = \alpha + \beta_{0} x_{t} + \beta_{1} x_{t-1} + \beta_{2} x_{t-2} + \cdots + \beta_{q} x_{t-q} + e_{t}
+    \end{align*}
+    Under these assumptions, the OLS estimators are the best linear unbiased estimators (BLUE).
+
+    \smallskip
+    \begin{tcolorbox}[colframe=MyColor!80, title=Assumptions of the Distributed Lag model]
+        \begin{enumerate}
+            \item The true model is linear in the parameters and correctly specified
+            \item $ y $ and $ x $ are stationary random variables, and $ e_{t} $ is independent of current, past and future values of $ x $
+            \item $ \mathrm{E}(e_{t}) = 0 $
+            \item $ \mathrm{Var}(e_{t}) = \sigma^2 $
+            \item $ \mathrm{Cov}(e_{t}, e_{s}) = 0 $ for all $ t \neq s $
+            \item $ e_{t} \sim \mathcal{N}(0, \sigma^2) $
+        \end{enumerate}
+    \end{tcolorbox}
+
+\end{frame}
+
+% ------------------------------------------------------------------------------
+
+\begin{frame}{Consequences of autocorrelation in the error term}
+
+    \bigskip
+    The assumption $ \mathrm{Cov}(e_{t}, e_{s}) = 0 $ implies that there is no serial correlation in the error term and is likely to be violated in time-series data.
+
+    \medskip
+    If errors $ e_{t} $ are serially correlated, then
+    \begin{itemize}\itemsep=1em
+        \item the OLS estimators are still unbiased, but they are no longer the best linear unbiased estimators (\cancel{BLUE})
+        \item the standard errors of the OLS estimators are incorrect
+        \item the OLS estimators are no longer normally distributed, and the usual t and F tests are invalid
+    \end{itemize}
+
+    \medskip
+    Hence, we need to check for serial correlation in the error term.
+
+\end{frame}
+
+% ------------------------------------------------------------------------------
+
+\begin{frame}{Testing for serial correlation}
+
+    \bigskip
+    Serial correlation in the error term may be tested using a Lagrange multiplier (LM) test.
+
+    \medskip
+    Suppose that we have a distributed lag model
+    \begin{align*}
+        y_{t} = \alpha + \beta x_{t} + e_{t}
+    \end{align*}
+    and we suspect serial correlation in $ e_{t} $, that is $ e_{t} = \rho e_{t-1} + \varepsilon_{t} $.
+
+    \medskip
+    We can substitute the second equation into the first to obtain
+    \begin{align*}
+        y_{t} = \alpha + \beta x_{t} + \rho e_{t-1} + \varepsilon_{t}
+    \end{align*}
+
+    Also noting that we have $ y = \widehat{\alpha} + \widehat{\beta} x + \widehat{e} $, we get
+    \begin{align*}
+        \widehat{e}_{t} = \left( \alpha - \widehat{\alpha} \right) + \left( \beta - \widehat{\beta} \right) x_{t} + \rho \widehat{e}_{t-1} + \varepsilon_{t}
+    \end{align*}
+
+\end{frame}
+
+% ------------------------------------------------------------------------------
+
+\begin{frame}{Lagrange multiplier test for serial correlation}
+
+    \bigskip
+    The Lagrange multiplier (LM) test is based on the following regression
+    \begin{align*}
+        \widehat{e}_{t} = \gamma_{0} + \gamma_{1} x_{t} + \rho \widehat{e}_{t-1} + \varepsilon_{t}
+    \end{align*}
+    where $ \gamma_{0} = \alpha - \widehat{\alpha} $ and $ \gamma_{1} = \beta - \widehat{\beta} $.
+
+    \medskip
+    The test statistic is
+    \begin{align*}
+        \mathrm{LM} = T \times R^2
+    \end{align*}
+    where $ R^2 $ is the R-squared from the above regression.
+
+    \medskip
+    If $ H_{0} $ is true, the LM test statistic is asymptotically distributed as $ \chi^2_{(1)} $.
+
+    \medskip
+    The test may be also easily extended to test for higher-order serial correlation.
+
+\end{frame}
+
+% ==============================================================================
+
+\section{Estimation with Serially Correlated Errors}
+
+% ------------------------------------------------------------------------------
+
+\begin{frame}{Standard errors in the presence of serial correlation}
+
+    \bigskip
+    Serial correlation in the error term results in the OLS estimators being \textit{inefficient} and standard errors being \textit{incorrect}.
+
+    \medskip
+    Recall that the variance of the OLS slope estimator is
+    \begin{align*}
+        \mathrm{Var}(\widehat{\beta}) = \sum_{t=1}^{T} w_{t}^2 \mathrm{Var}(e_{t}) + \sum_{t=1}^{T} \sum_{s \neq t} w_{t} w_{s} \mathrm{Cov}(e_{t}, e_{s})
+    \end{align*}
+    where
+    \begin{align*}
+        w_{t} = \frac{x_{t} - \overline{x}}{\sum_{s=1}^{T} (x_{s} - \overline{x})^2}
+    \end{align*}
+
+    Hence, if $ \mathrm{Cov}(e_{t}, e_{s}) \neq 0 $, the variance of the OLS slope estimator is incorrect.
+
+\end{frame}
+
+% ------------------------------------------------------------------------------
+
+\begin{frame}{HAC standard errors}
+
+    \bigskip
+    It is possible to obtain correct standard errors in the presence of serial correlation.
+
+    \medskip
+    The correct standard errors are called \textbf{heteroskedasticity and autocorrelation consistent (HAC)} standard errors or \textbf{Newey-West} standard errors.
+
+    \medskip
+    The HAC standard errors are computed as
+    \begin{align*}
+        \mathrm{Var}(\widehat{\beta}) = \sum_{t=1}^{T} w_{t}^2 \mathrm{Var}(e_{t}) + 2 \sum_{k=1}^{M} \left( 1 - \frac{k}{M+1} \right) \sum_{t=k+1}^{T} w_{t} w_{t-k} \mathrm{Cov}(e_{t}, e_{t-k})
+    \end{align*}
+    where $ M $ is the number of lags used in the calculation of the HAC standard errors.
+
+    \medskip
+    A rule of thumb for choosing $ M $ is
+    \begin{align*}
+        M = 0.75 T^{1/3}
+    \end{align*}
+
+\end{frame}
+
+% ==============================================================================
+
+\section{Estimation of Autoregressive Distributed Lag Models}
+
+% ------------------------------------------------------------------------------
+
+\begin{frame}{Autoregressive Distributed Lag Models}
+
+    \bigskip
+    Recall that serial correlation in the error term results in the OLS estimators being \textit{inefficient}.
+
+    \medskip
+    Suppose that we have a distributed lag model
+    \begin{align*}
+        y_{t} = \alpha + \beta_{0} x_{t} + e_{t} \\
+        e_{t} = \rho e_{t-1} + \varepsilon_{t}
+    \end{align*}
+
+    Substituting the second equation into the first yields
+    \begin{align*}
+        y_{t} = \delta + \rho y_{t-1} + \beta_{0} x_{t} + \beta_{1} x_{t-1} + \varepsilon_{t}
+    \end{align*}
+    where $ \delta = \alpha \left( 1-\rho \right) $ and $ \beta_{1} = - \rho \beta_{0} $.
+
+    \medskip
+    Hence, the model with autoregressive errors is a special case of an $ ARDL(1, 1) $ model.
+
+\end{frame}
+
+% ------------------------------------------------------------------------------
+
+\begin{frame}{Assumptions of the Autoregressive Distributed Lag Model}
+
+    \bigskip
+    Suppose that we have an autoregressive distributed lag model
+    \begin{align*}
+        y_{t} = \alpha + \phi_{1} y_{t-1} + \cdots + \phi_{p} y_{t-p} + \beta_{0} x_{t} + \beta_{1} x_{t-1} + \cdots + \beta_{q} x_{t-q} + e_{t}
+    \end{align*}
+    Under these assumptions, the OLS estimators are not BLUE but are \textbf{consistent} and \textbf{asymptotically efficient}.
+
+    \smallskip
+    \begin{tcolorbox}[colframe=MyColor!80, title=Assumptions of the Autoregressive Distributed Lag model]
+        \begin{enumerate}
+            \item The true model is linear in the parameters and correctly specified
+            \item $ y $ and $ x $ are stationary random variables, and $ e_{t} $ is independent of $ y_{t-1} $, $ x_{t} $ and their past values
+            \item $ \mathrm{E}(e_{t}) = 0 $
+            \item $ \mathrm{Var}(e_{t}) = \sigma^2 $
+            \item $ \mathrm{Cov}(e_{t}, e_{s}) = 0 $ for all $ t \neq s $
+            \item $ e_{t} \sim \mathcal{N}(0, \sigma^2) $
+        \end{enumerate}
+    \end{tcolorbox}
+
+\end{frame}
+
+% ------------------------------------------------------------------------------
+
+\begin{frame}{Consistency and asymptotic efficiency}
+
+    \bigskip
+    An estimator is \textbf{consistent} if it converges in probability to the true value of the parameter as the sample size increases.
+
+    \medskip
+    An estimator is \textbf{asymptotically efficient} if no other consistent estimator has a smaller asymptotic variance.
+
+    \medskip
+    The OLS estimators of the ARDL model are consistent and asymptotically efficient, i.e.
+    \begin{align*}
+        \widehat{\theta} \overset{p}{\to} \theta \quad \text{and} \quad \mathrm{Avar}(\widehat{\theta}) \leq \mathrm{Avar}(\widetilde{\theta}) \quad \text{as} \quad T \to \infty
+    \end{align*}
+    for any other consistent estimator $ \widetilde{\theta} $, where $ \theta $ the the true values of the parameters $ \theta = (\alpha, \phi_{1}, \ldots, \phi_{p}, \beta_{0}, \beta_{1}, \ldots, \beta_{q}) $ and $ \mathrm{Avar}(\cdot) $ is the asymptotic variance.
+
+    \medskip
+    The OLS estimators are also \textbf{asymptotically normally distributed}. That is $ \widehat{\theta} \overset{d}{\to} \mathcal{N}(\theta, \Sigma) $.
+
+\end{frame}
+
+% ------------------------------------------------------------------------------
+
+\begin{frame}{Lag order selection}
+
+    \bigskip
+    The orders of the Autoregressive Distributed Lag models $ p $ and $ q $ are usually unknown.
+
+    \medskip
+    Several criteria have been proposed for selecting the lag orders.
+    \begin{itemize}\itemsep=1em
+        \item Has serial correlation in the errors been eliminated?
+        \begin{itemize}
+            \item[-] The assumptions of the model are not satisfied if the errors are serially correlated
+        \end{itemize}
+        \item Are the estimates significantly different from zero?
+        \begin{itemize}
+            \item[-] If the estimates of some lags are close to zero, then we can drop those lags
+        \end{itemize}
+        \item Information criteria: AIC, BIC, etc.
+        \begin{itemize}
+            \item[-] How well does the model fit the data and how many parameters are used?
+        \end{itemize}
+    \end{itemize}
+
+\end{frame}
+
+% ------------------------------------------------------------------------------
+
+\begin{frame}{Information criteria}
+
+    \bigskip
+    The most commonly used information criteria are the AIC and BIC.
+
+    \medskip
+    The \textbf{Akaike information criterion (AIC)} is defined as
+    \begin{align*}
+        \mathrm{AIC} = \ln \left( \frac{SSE}{T} \right) + \frac{2k}{T}
+    \end{align*}
+    where $ SSE $ is the sum of squared residuals, $ T $ is the number of observations, and $ k = p + q + 2 $.
+
+    \medskip
+    The \textbf{Bayesian information criterion (BIC)} is defined as
+    \begin{align*}
+        \mathrm{BIC} = \ln \left( \frac{SSE}{T} \right) + \frac{k \ln(T)}{T}
+    \end{align*}
+
+    Because $ \ln(T) > 2 $ for $ T \geq 8 $, the BIC penalizes additional lags more heavily than the AIC.
+
+\end{frame}
+
+% ==============================================================================
+
+% % \begin{frame}<beamer:0>
+% \begin{frame}[allowframebreaks]{Bibliography}
+
+%     \bibliographystyle{apalike}
+%     \bibliography{references}
+
+% \end{frame}
+
+% ==============================================================================
+
+\end{document}
