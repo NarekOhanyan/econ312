@@ -1,0 +1,76 @@
+%% !TEX program = pdflatex
+%% !BIB program = bibtex
+\documentclass[12pt]{article}
+
+\usepackage{amsfonts,amsmath,amssymb,mathtools,marvosym}
+\usepackage[left=2.5cm,right=2cm,top=2cm,bottom=2.5cm]{geometry}
+\usepackage{indentfirst,setspace,multirow}
+\usepackage{graphicx,xcolor,float,epstopdf}
+\usepackage{enumerate}
+\usepackage[bookmarks=true,colorlinks,linkcolor=blue,citecolor=blue,urlcolor={black},breaklinks=true]{hyperref}
+
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{N}[1]{>{\arraybackslash}m{#1}}
+
+\onehalfspacing
+%\doublespacing
+
+\setlength{\parindent}{0.5cm}
+\setlength{\parskip}{0cm}
+%\renewcommand{\baselinestretch}{1.15} % 1.6 for double
+
+% =================================================================
+
+\title{\textbf{Homework 1}}
+\author{ECON312 Time Series Analysis \\ Instructor: Narek Ohanyan}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+% -----------------------------------------------------------------
+
+\section*{Instructions}
+
+\begin{itemize}
+    \item The homework is due at due-time on \textbf{due-date}. No late submissions will be accepted.
+    \item Students are encouraged to submit answers typed in TeX format. Such submissions will be rewarded with a bonus of 2\% of the final grade.
+    \item Homeworks must be submitted (uploaded to the course page) in pdf format named \textit{Name\_Surname.pdf}.
+\end{itemize}
+
+% -----------------------------------------------------------------
+
+\section*{Assignment 1}
+
+Consider an $ AR(1) $ process given by
+\begin{align*}
+    y_t = \rho y_{t-1} + \epsilon_t \qquad \epsilon_t \sim IID(0, \sigma^2)
+\end{align*}
+with $ | \rho | < 1 $ and $ \sigma^2 > 0 $.
+
+\begin{enumerate}
+    \item Show that the process may be written as
+          \begin{align*}
+              y_t = \sum_{j=0}^{\infty} \rho^j \epsilon_{t-j}
+          \end{align*}
+          Hint: use backward substitutions for lags of $ y_t $.
+    \item Using the expression above, show that
+          \begin{align*}
+              E \left( y_t \right) = 0
+          \end{align*}
+    \item Similarly, show that
+          \begin{align*}
+              Var \left( y_t \right) = \frac{\sigma^2}{1-\rho^2}
+          \end{align*}
+    \item Finally, show that
+          \begin{align*}
+              Cov \left( y_t, y_{t-j} \right) = \frac{\rho^j \sigma^2}{1-\rho^2} \qquad \text{for} \quad j > 0
+          \end{align*}
+\end{enumerate}
+
+% =================================================================
+
+\end{document}

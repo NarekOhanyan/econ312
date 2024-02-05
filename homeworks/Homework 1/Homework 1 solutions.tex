@@ -1,0 +1,107 @@
+%% !TEX program = pdflatex
+%% !BIB program = bibtex
+\documentclass[12pt]{article}
+
+\usepackage{amsfonts,amsmath,amssymb,mathtools,marvosym}
+\usepackage[left=2.5cm,right=2cm,top=2cm,bottom=2.5cm]{geometry}
+\usepackage{indentfirst,setspace,multirow}
+\usepackage{graphicx,xcolor,float,epstopdf}
+\usepackage{enumerate}
+\usepackage[bookmarks=true,breaklinks=true,colorlinks,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{N}[1]{>{\arraybackslash}m{#1}}
+
+\onehalfspacing
+%\doublespacing
+
+\setlength{\parindent}{0.5cm}
+\setlength{\parskip}{0cm}
+%\renewcommand{\baselinestretch}{1.15} % 1.6 for double
+
+% ==============================================================================
+
+\title{\textbf{Homework 1 solutions}}
+\author{ECON312 Time Series Analysis \\ Instructor: Narek Ohanyan}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+% ------------------------------------------------------------------------------
+
+\section*{Assignment 1}
+
+Consider an $ ARMA(1, 1) $ process given by
+\begin{align*}
+    y_{t} = \phi y_{t-1} + \varepsilon_{t} + \theta \varepsilon_{t-1} \qquad \varepsilon_{t} \sim WN(0, \sigma^2)
+\end{align*}
+with $ | \phi | < 1 $ and $ \sigma^2 > 0 $.
+
+\begin{enumerate}
+
+    \item Find a representation of $ y_{t} $ in terms of $ \varepsilon_{t} $, $ \varepsilon_{t-1} $, $ \varepsilon_{t-2} $, \ldots
+
+          \textbf{Solution}
+
+          \begin{align*}
+              y_{t} & = \phi y_{t-1} + \varepsilon_{t} + \theta \varepsilon_{t-1}                                                                                                                                                                                               \\
+                    & = \phi (\phi y_{t-2} + \varepsilon_{t-1} + \theta \varepsilon_{t-2}) + \varepsilon_{t} + \theta \varepsilon_{t-1}                                                                                                                                         \\
+                    & = \phi^2 \left( \phi y_{t-3} + \varepsilon_{t-2} + \theta \varepsilon_{t-3} \right) + \phi \varepsilon_{t-1} + \theta \phi \varepsilon_{t-2} + \varepsilon_{t} + \theta \varepsilon_{t-1}                                                                 \\
+                    & = \phi^3 \left( \phi y_{t-4} + \varepsilon_{t-3} + \theta \varepsilon_{t-4} \right) + \phi^2 \varepsilon_{t-2} + \theta \phi^2 \varepsilon_{t-3} + \phi \varepsilon_{t-1} + \theta \phi \varepsilon_{t-2} + \varepsilon_{t} + \theta \varepsilon_{t-1}    \\
+                    & \vdots                                                                                                                                                                                                                                                    \\
+                    & = \phi^{j+1} y_{t-j-1} + \phi^{j} \theta \varepsilon_{t-j-1} + \phi^{j-1} \left( \phi + \theta \right) \varepsilon_{t-j} + \ldots + \phi \left( \phi + \theta \right) \varepsilon_{t-2} + \left( \phi + \theta \right) \varepsilon_{t-1}+ \varepsilon_{t}
+          \end{align*}
+
+          We have $ \lim_{j \to \infty} \phi^{j} = 0 $ since $ | \phi | < 1 $, hence
+          \begin{align*}
+              y_{t} = \varepsilon_{t} + \left( \phi + \theta \right) \sum_{j=0}^{\infty} \phi^{j}  \varepsilon_{t-j-1}
+          \end{align*}
+
+    \item Find the mean and variance of $ y_{t} $
+
+          \textbf{Solution}
+
+          The mean of $ y_{t} $ is
+          \begin{align*}
+              \mathrm{E} (y_{t}) = \mathrm{E} (\varepsilon_{t}) + \left( \phi + \theta \right) \sum_{j=0}^{\infty} \phi^{j} \mathrm{E} (\varepsilon_{t-j-1}) = 0
+          \end{align*}
+
+          The variance of $ y_{t} $ is
+          \begin{align*}
+              \mathrm{Var} (y_{t}) & = \mathrm{Var} (\varepsilon_{t}) + \left( \phi + \theta \right)^2 \sum_{j=0}^{\infty} \phi^{2j} \mathrm{Var} (\varepsilon_{t-j-1}) \\
+                                   & = \sigma^2 + \left( \phi + \theta \right)^2 \sum_{j=0}^{\infty} \phi^{2j} \sigma^2                                                 \\
+                                   & = \sigma^2 \left( 1 + \frac{\left( \phi+\theta \right)^2}{1 - \phi^2} \right)
+          \end{align*}
+
+    \item Find the first autocovariance of $ y_{t} $
+
+          \textbf{Solution}
+
+          The first autocovariance of $ y_{t} $ is
+          \begin{align*}
+              \mathrm{Cov} (y_{t}, y_{t-1}) & = \mathrm{Cov} \left( \varepsilon_{t} + \left( \phi + \theta \right) \varepsilon_{t-1} + \phi \left( \phi + \theta \right) \varepsilon_{t-2} + \phi^2 \left( \phi + \theta \right) \varepsilon_{t-3} + \ldots, \right. \\
+                                            & \left. \varepsilon_{t-1} + \left( \phi + \theta \right) \varepsilon_{t-2} + \phi \left( \phi + \theta \right) \varepsilon_{t-3} + \phi^2 \left( \phi + \theta \right) \varepsilon_{t-4} + \ldots \right)               \\
+                                            & = \left( \phi + \theta \right) \sigma^2 + \phi \left( \phi + \theta \right)^2 \sigma^2 + \phi^3 \left( \phi + \theta \right)^2 \sigma^2 + \ldots                                                                       \\
+                                            & = \sigma^2 \left( \left( \phi + \theta \right) + \phi \left( \phi + \theta \right)^2 + \phi^3 \left( \phi + \theta \right)^2 + \ldots \right)                                                                          \\
+                                            & = \sigma^2 \left( \left( \phi + \theta \right) + \phi \left( \phi + \theta \right)^2 \left( 1 + \phi^2 + \phi^4 + \ldots \right) \right)                                                                               \\
+                                            & = \sigma^2 \left( \left( \phi + \theta \right) + \frac{\phi \left( \phi + \theta \right)^2}{1 - \phi^2} \right)
+          \end{align*}
+
+    \item Find the first autocorrelation of $ y_{t} $
+
+          \textbf{Solution}
+
+          The first autocorrelation of $ y_{t} $ is
+          \begin{align*}
+              \rho(1) = \frac{\mathrm{Cov} (y_{t}, y_{t-1})}{\mathrm{Var} (y_{t})} = \frac{\left( 1-\phi^2 \right)\left( \phi + \theta \right) + \phi \left( \phi + \theta \right)^2}{\left( 1-\phi^2 \right) + \left( \phi+\theta \right)^2} = \frac{\left(\phi + \theta\right)\left( 1 + \phi \theta \right)}{1 + 2 \phi \theta + \phi^2}
+          \end{align*}
+
+\end{enumerate}
+
+% ==============================================================================
+
+\end{document}
