@@ -7,7 +7,7 @@
 \usepackage{indentfirst,setspace,multirow}
 \usepackage{graphicx,xcolor,float,epstopdf}
 \usepackage{enumerate}
-\usepackage[bookmarks=true,colorlinks,linkcolor=blue,citecolor=blue,urlcolor={black},breaklinks=true]{hyperref}
+\usepackage[bookmarks=true,breaklinks=true,colorlinks,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
 
 \usepackage{array}
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
@@ -49,32 +49,69 @@
     \item No electronic devices are allowed.
     \item Write your answers in a clear and unambiguous way.
 
-    Good luck!
+          Good luck!
 \end{itemize}
 
 % ==============================================================================
 
 \newpage
 
-\section*{Question 1 \normalfont{\normalsize{(10 pts.)}}}
+\section*{Question 1 \normalfont{\normalsize{(2 pts.)}}}
 
-Consider the following AR(1) model
-\begin{align}
-    \label{eq:y}
-    y_{t} & = \phi y_{t-1} + e_{t}
-\end{align}
-where the error terms are themselves AR(1) processes
-\begin{align*}
-    e_{t} & = \rho e_{t-1} + u_{t} \qquad\qquad\qquad u_{t} \sim IID(0,\sigma^2).
-\end{align*}
-with $ | \phi | < 1 $ and $ | \rho | < 1 $.
+Suppose the you have time series data on some variable $ y_{t} $, and you want to determine whether the series is $ AR(p) $ or $ MA(q) $ along with the order of the process $ p $ or $ q $.
 
-\begin{enumerate}
-    \item Can Eq. (\ref{eq:y}) be estimated by OLS? Why yes or why not? Explain your answer.
-    \vspace{5cm}
-    \item If your answer is yes, will the estimators be unbiased and/or consistent? If the answer is no, can you suggest a transformation to make the model estimable? Will the estimators be unbiased and/or consistent in that case?
-    \vspace{5cm}
-\end{enumerate}
+The figures below show the ACF and PACF of the series. Based on the information provided in the figure determine the type of the process, i.e. $ AR $ or $ MA $, and the order of the process $ p $ or $ q $.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{./stata/fig/acf.pdf}
+    \includegraphics[width=0.45\textwidth]{./stata/fig/pacf.pdf}
+\end{figure}
+
+Explain your answer.
+
+\vspace{5cm}
+
+\section*{Question 2 \normalfont{\normalsize{(4 pts.)}}}
+
+Consider the following $ AR(1) $ process:
+\begin{equation*}
+    y_{t} = \phi y_{t-1} + e_{t} \qquad e_{t} \sim WN(0, \sigma^{2})
+\end{equation*}
+with $ \phi = 0.6 $ and $ \sigma^{2} = 1 $.
+
+Evaluate the following expressions:
+\begin{itemize}
+    \item $ \mathrm{Cov} \left( e_{t}, e_{t-1} \right) = $
+          \vspace{2cm}
+    \item $ \mathrm{Cov} \left( e_{t}, y_{t-1} \right) = $
+          \vspace{2cm}
+    \item $ \mathrm{Corr} \left( y_{t}, y_{t-1} \right) = $
+          \vspace{2cm}
+    \item $ \mathrm{Corr} \left( y_{t}, y_{t-2} \right) = $
+          \vspace{2cm}
+\end{itemize}
+
+% ------------------------------------------------------------------------------
+
+\section*{Question 3 \normalfont{\normalsize{(4 pts.)}}}
+
+Consider the following process:
+\begin{equation*}
+    y_{t} = c + e_{t} + \theta_1 e_{t-1} + \theta_2 e_{t-2} \qquad e_{t} \sim WN(0, \sigma^{2})
+\end{equation*}
+
+Evaluate the following expressions:
+\begin{itemize}
+    \item $ \mathrm{Var} \left( y_{t} \right) = $
+          \vspace{2cm}
+    \item $ \mathrm{Cov} \left( y_{t}, y_{t-1} \right) = $
+          \vspace{2cm}
+    \item $ \mathrm{Cov} \left( y_{t}, e_{t-2} \right) = $
+          \vspace{2cm}
+    \item $ \mathrm{Cov} \left( y_{t}, e_{t-3} \right) = $
+          \vspace{2cm}
+\end{itemize}
 
 % ==============================================================================
 

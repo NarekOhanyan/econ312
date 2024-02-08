@@ -1,0 +1,81 @@
+%% !TEX program = pdflatex
+%% !BIB program = bibtex
+\documentclass[12pt]{article}
+
+\usepackage{amsfonts,amsmath,amssymb,mathtools,marvosym}
+\usepackage[left=2.5cm,right=2cm,top=2cm,bottom=2.5cm]{geometry}
+\usepackage{indentfirst,setspace,multirow}
+\usepackage{graphicx,xcolor,float,epstopdf}
+\usepackage{enumerate}
+\usepackage[bookmarks=true,colorlinks,linkcolor=blue,citecolor=blue,urlcolor={black},breaklinks=true]{hyperref}
+
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{N}[1]{>{\arraybackslash}m{#1}}
+
+\onehalfspacing
+%\doublespacing
+
+\setlength{\parindent}{0.5cm}
+\setlength{\parskip}{0cm}
+%\renewcommand{\baselinestretch}{1.15} % 1.6 for double
+
+% ==============================================================================
+
+\title{\textbf{Quiz 1}}
+\author{ECON312 Time Series Analysis \\ Instructor: Narek Ohanyan}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\vspace{1cm}
+
+\textbf{Student} $ \qquad \underset{\text{first name}}{\underline{\hspace{4cm}}} \quad \underset{\text{last name}}{\underline{\hspace{6cm}}}  $
+
+\bigskip
+\textbf{Grade} $ \qquad \underline{\hspace{1cm}} \quad / \quad 10 $
+
+% ------------------------------------------------------------------------------
+
+\vspace{1cm}
+
+\section*{Instructions}
+
+\begin{itemize}
+    \item The quiz is closed-book.
+    \item No electronic devices are allowed.
+    \item Write your answers in a clear and unambiguous way.
+
+    Good luck!
+\end{itemize}
+
+% ==============================================================================
+
+\newpage
+
+\section*{Question 1 \normalfont{\normalsize{(10 pts.)}}}
+
+Consider the following AR(1) model
+\begin{align}
+    \label{eq:y}
+    y_{t} & = \phi y_{t-1} + e_{t}
+\end{align}
+where the error terms are themselves AR(1) processes
+\begin{align*}
+    e_{t} & = \rho e_{t-1} + u_{t} \qquad\qquad\qquad u_{t} \sim IID(0,\sigma^2).
+\end{align*}
+with $ | \phi | < 1 $ and $ | \rho | < 1 $.
+
+\begin{enumerate}
+    \item Can Eq. (\ref{eq:y}) be estimated by OLS? Why yes or why not? Explain your answer.
+    \vspace{5cm}
+    \item If your answer is yes, will the estimators be unbiased and/or consistent? If the answer is no, can you suggest a transformation to make the model estimable? Will the estimators be unbiased and/or consistent in that case?
+    \vspace{5cm}
+\end{enumerate}
+
+% ==============================================================================
+
+\end{document}
